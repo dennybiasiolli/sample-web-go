@@ -38,3 +38,14 @@ func main() {
 ```bash
 go run .
 ```
+
+## Add an API endpoint
+
+```go
+api := router.Group("/api")
+api.GET("/", func(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+        "message": "Hello World!",
+    })
+})
+```

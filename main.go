@@ -13,5 +13,12 @@ func main() {
 		c.String(http.StatusOK, "Hello World!")
 	})
 
+	api := router.Group("/api")
+	api.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Hello World!",
+		})
+	})
+
 	router.Run()
 }
