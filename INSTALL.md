@@ -25,3 +25,7 @@ cat >>$HOME/.bashrc <<EOT
 export PATH=$PATH:/usr/local/go/bin
 EOT
 ```
+
+## Update to a new version of Go
+
+Relaunch the installation process with the new version number.
