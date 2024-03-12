@@ -16,7 +16,7 @@ func helloApiHandler(c *gin.Context) {
 	})
 }
 
-func main() {
+func setupRouter() *gin.Engine {
 	router := gin.Default()
 
 	router.GET("/hello", helloHandler)
@@ -26,5 +26,10 @@ func main() {
 
 	router.Static("/static", "./static")
 
+	return router
+}
+
+func main() {
+	router := setupRouter()
 	router.Run()
 }
