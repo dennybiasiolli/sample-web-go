@@ -24,12 +24,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func helloHandler(c *gin.Context) {
+	c.String(http.StatusOK, "Hello World!")
+}
+
 func main() {
 	router := gin.Default()
 
-	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello World!")
-	})
+	router.GET("/hello", helloHandler)
 
 	router.Run()
 }
@@ -42,10 +44,18 @@ go run .
 ## Add an API endpoint
 
 ```go
-api := router.Group("/api")
-api.GET("/", func(c *gin.Context) {
-    c.JSON(http.StatusOK, gin.H{
-        "message": "Hello World!",
-    })
-})
+
+
+func helloApiHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Hello World!",
+	})
+}
+
+func main() {
+    // ...
+    api := router.Group("/api")
+	api.GET("/hello", helloApiHandler)
+    // ...
+}
 ```
