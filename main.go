@@ -24,5 +24,7 @@ func main() {
 	api := router.Group("/api")
 	api.GET("/hello", helloApiHandler)
 
+	router.Static("/static", "./static")
+
 	router.Run()
 }

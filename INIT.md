@@ -44,8 +44,6 @@ go run .
 ## Add an API endpoint
 
 ```go
-
-
 func helloApiHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Hello World!",
@@ -56,6 +54,11 @@ func main() {
     // ...
     api := router.Group("/api")
 	api.GET("/hello", helloApiHandler)
-    // ...
 }
+```
+
+## Serve static files
+
+```go
+	router.Static("/static", "./static")
 ```
