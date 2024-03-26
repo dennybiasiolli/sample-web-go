@@ -18,6 +18,27 @@ func helloApiHandler(c *gin.Context) {
 	})
 }
 
+func helloAdvancedHandler(c *gin.Context) {
+	name := c.Param("name")
+	age := c.Param("age")
+	ageInt, err := strconv.Atoi(age)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Invalid input")
+		return
+	}
+	cool := c.Param("cool")
+	coolBool, err := strconv.ParseBool(cool)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Invalid input")
+		return
+	}
+	if coolBool {
+		c.String(http.StatusOK, "You're a cool %d year old, %s!", ageInt, name)
+	} else {
+		c.String(http.StatusOK, "%s, we need to talk about your coolness.", name)
+	}
+}
+
 func delayHandler(c *gin.Context) {
 	seconds := c.Param("seconds")
 	secondsInt, err := strconv.Atoi(seconds)
@@ -33,6 +54,7 @@ func setupRouter() *gin.Engine {
 	router := gin.Default()
 
 	router.GET("/hello", helloHandler)
+	router.GET("/hello_advanced/:name/:age/:cool", helloAdvancedHandler)
 
 	api := router.Group("/api")
 	api.GET("/hello", helloApiHandler)

@@ -41,6 +41,36 @@ func main() {
 go run .
 ```
 
+
+## Dynamic Paths
+
+```go
+func helloAdvancedHandler(c *gin.Context) {
+	name := c.Param("name")
+	age := c.Param("age")
+	ageInt, err := strconv.Atoi(age)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Invalid input")
+		return
+	}
+	cool := c.Param("cool")
+	coolBool, err := strconv.ParseBool(cool)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Invalid input")
+		return
+	}
+	if coolBool {
+		c.String(http.StatusOK, "You're a cool %d year old, %s!", ageInt, name)
+	} else {
+		c.String(http.StatusOK, "%s, we need to talk about your coolness.", name)
+	}
+}
+
+// ...
+router.GET("/hello_advanced/:name/:age/:cool", helloAdvancedHandler)
+```
+
+
 ## Add an API endpoint
 
 ```go
@@ -57,11 +87,13 @@ func main() {
 }
 ```
 
+
 ## Serve static files
 
 ```go
 router.Static("/static", "./static")
 ```
+
 
 ## Async requests
 

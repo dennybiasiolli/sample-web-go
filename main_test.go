@@ -38,6 +38,32 @@ func TestApiHelloRoute(t *testing.T) {
 	})
 }
 
+func TestHelloAdvancedRoute(t *testing.T) {
+	router := setupRouter()
+
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("GET", "/hello_advanced/John/25/true", nil)
+	router.ServeHTTP(w, req)
+	assert.Equal(t, w.Code, http.StatusOK)
+	assert.Equal(t, w.Body.String(), "You're a cool 25 year old, John!")
+
+	w = httptest.NewRecorder()
+	req, _ = http.NewRequest("GET", "/hello_advanced/John/25/false", nil)
+	router.ServeHTTP(w, req)
+	assert.Equal(t, w.Code, http.StatusOK)
+	assert.Equal(t, w.Body.String(), "John, we need to talk about your coolness.")
+
+	w = httptest.NewRecorder()
+	req, _ = http.NewRequest("GET", "/hello_advanced/John/25", nil)
+	router.ServeHTTP(w, req)
+	assert.Equal(t, w.Code, http.StatusNotFound)
+
+	w = httptest.NewRecorder()
+	req, _ = http.NewRequest("GET", "/hello_advanced/John/25/invalid", nil)
+	router.ServeHTTP(w, req)
+	assert.Equal(t, w.Code, http.StatusBadRequest)
+}
+
 func TestStaticRoute(t *testing.T) {
 	router := setupRouter()
 
