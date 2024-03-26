@@ -2,6 +2,8 @@ package main
 
 import (
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,6 +18,17 @@ func helloApiHandler(c *gin.Context) {
 	})
 }
 
+func delayHandler(c *gin.Context) {
+	seconds := c.Param("seconds")
+	secondsInt, err := strconv.Atoi(seconds)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Invalid input")
+		return
+	}
+	time.Sleep(time.Duration(secondsInt) * time.Second)
+	c.String(http.StatusOK, "Waited for %d seconds", secondsInt)
+}
+
 func setupRouter() *gin.Engine {
 	router := gin.Default()
 
@@ -25,6 +38,7 @@ func setupRouter() *gin.Engine {
 	api.GET("/hello", helloApiHandler)
 
 	router.Static("/static", "./static")
+	router.GET("/async/delay/:seconds", delayHandler)
 
 	return router
 }

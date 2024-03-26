@@ -50,3 +50,14 @@ func TestStaticRoute(t *testing.T) {
 	assert.Contains(t, body, "<title>Static HTML page</title>")
 	assert.Contains(t, body, "<h1>Static HTML page</h1>")
 }
+
+func TestDelayRoute(t *testing.T) {
+	router := setupRouter()
+
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("GET", "/async/delay/1", nil)
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, w.Code, http.StatusOK)
+	assert.Equal(t, w.Body.String(), "Waited for 1 seconds")
+}

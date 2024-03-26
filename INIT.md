@@ -60,5 +60,23 @@ func main() {
 ## Serve static files
 
 ```go
-	router.Static("/static", "./static")
+router.Static("/static", "./static")
+```
+
+## Async requests
+
+```go
+func delayHandler(c *gin.Context) {
+	seconds := c.Param("seconds")
+	secondsInt, err := strconv.Atoi(seconds)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Invalid input")
+		return
+	}
+	time.Sleep(time.Duration(secondsInt) * time.Second)
+	c.String(http.StatusOK, "Waited for %d seconds", secondsInt)
+}
+
+// ...
+router.GET("/async/delay/:seconds", delayHandler)
 ```
